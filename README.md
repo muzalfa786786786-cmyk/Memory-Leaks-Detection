@@ -2,7 +2,7 @@
 
 A lightweight and automated system designed to monitor process memory usage, store historical data, and detect abnormal memory growth patterns that may indicate memory leaks.
 
----
+```
 
 ## 📌 Table of Contents
 - Overview
@@ -17,14 +17,14 @@ A lightweight and automated system designed to monitor process memory usage, sto
 - Future Improvements
 - Author
 
----
+```
 
 ## 🔍 Overview
 Memory management is a critical function of operating systems. Improper handling of memory allocation and deallocation leads to memory leaks, which can degrade performance, increase resource consumption, and cause system instability.
 
 This project provides a continuous monitoring tool that tracks memory usage over time and helps identify potential memory leaks automatically.
 
----
+```
 
 ## ❗ Problem Statement
 Memory leaks are difficult to detect because they:
@@ -37,7 +37,7 @@ Traditional tools like Task Manager:
 - Do not store historical records  
 - Do not detect abnormal trends  
 
----
+```
 
 ## 💡 Solution
 This system addresses these challenges by:
@@ -47,7 +47,7 @@ This system addresses these challenges by:
 - Detecting abnormal memory growth patterns  
 - Identifying suspicious processes automatically  
 
----
+```
 
 ## ⚙️ Features
 - Real-time process monitoring  
@@ -57,7 +57,7 @@ This system addresses these challenges by:
 - SQLite database integration  
 - Modular and scalable design  
 
----
+```
 
 ## 📁 Project Structure
 Memory-Leak-Detection/
@@ -86,7 +86,7 @@ Memory-Leak-Detection/
 - OS-level system calls  
 - Process monitoring techniques  
 
----
+```
 
 ## ⚙️ Installation
 
