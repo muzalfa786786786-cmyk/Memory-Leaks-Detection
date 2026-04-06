@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Leak Monitor</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'monitor/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+<div class="bg-animation"></div>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <header class="header-card">
+        <h1>🧠 Memory Leak Monitor</h1>
+        <p class="subtitle">Real-time process tracking & system performance</p>
+    </header>
+
+    <!-- TOP LIVE SYSTEM STATS -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <h3>CPU Usage</h3>
+            <div class="stat-value" id="cpu-card">0%</div>
+        </div>
+
+        <div class="stat-card">
+            <h3>RAM Usage</h3>
+            <div class="stat-value" id="ram-card">0%</div>
+        </div>
+
+        <div class="stat-card">
+            <h3>Processes</h3>
+            <div class="stat-value" id="proc-card">0</div>
+        </div>
+    </div>
+
+    <!-- PROCESS SCAN SECTION -->
+    <section class="card">
+        <h2>📊 Scan Running Processes</h2>
+        <button id="scan-btn" class="btn">Scan Now 🚀</button>
+
+        <!-- Control Buttons -->
+        <div class="control-buttons">
+            <button id="pause-btn">⏸</button>
+            <button id="resume-btn">▶</button>
+            <button id="stop-btn">⏹</button>
+            <button id="restart-btn" class="btn-restart">🔄</button>
+            <button id="graph-toggle-btn" class="btn-graph">📊</button>
+        </div>
+
+        <pre id="output" class="output-area">Results will appear here...</pre>
+
+        <canvas id="scanGraph"></canvas>
+    </section>
+
+    <!-- LIVE SYSTEM USAGE GRAPH -->
+    <section class="card">
+        <h2>📈 Real-Time CPU & RAM Usage</h2>
+        <canvas id="usageChart"></canvas>
+    </section>
+
+    <footer class="footer">
+        Made with ❤️ using Django
+    </footer>
+
+</div>
+
+<script src="{% static 'monitor/app.js' %}"></script>
+
+<!-- LIVE GRAPH JS -->
+<script>
+    const ctx2 = document.getElementById('usageChart').getContext('2d');
+
+    const usageChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [
+                { label: "CPU (%)", data: [], borderColor: "red", borderWidth: 2 },
+                { label: "RAM (%)", data: [], borderColor: "blue", borderWidth: 2 }
+            ]
+        },
+        options: { scales: { y: { beginAtZero: true, max: 100 }}}
+    });
+
+    // update every 3 sec
+    setInterval(() => {
+        fetch("/system-usage/")
+        .then(r => r.json())
+        .then(data => {
+            document.getElementById("cpu-card").innerText = data.cpu + "%";
+            document.getElementById("ram-card").innerText = data.ram + "%";
+            document.getElementById("proc-card").innerText = data.processes ?? "—";
+
+            const t = new Date().toLocaleTimeString();
+            usageChart.data.labels.push(t);
+            usageChart.data.datasets[0].data.push(data.cpu);
+            usageChart.data.datasets[1].data.push(data.ram);
+
+            if (usageChart.data.labels.length > 20) {
+                usageChart.data.labels.shift();
+                usageChart.data.datasets[0].data.shift();
+                usageChart.data.datasets[1].data.shift();
+            }
+            usageChart.update();
+        });
+    }, 3000);
+</script>
+
+</body>
+</html>
