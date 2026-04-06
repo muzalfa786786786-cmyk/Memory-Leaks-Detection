@@ -91,7 +91,7 @@ Memory-Leak-Detection/
 ## ⚙️ Installation
 
 1. Clone repository
-git clone https://github.com/your-username/memory-leak-detection.git
+[git clone https://github.com/your-username/memory-leak-detection.git](https://github.com/muzalfa786786786-cmyk/Memory-Leaks-Detection/tree/main)
 cd memory-leak-detection
 
 2. Create virtual environment (optional)
